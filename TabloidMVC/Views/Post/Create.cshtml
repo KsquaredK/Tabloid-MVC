@@ -30,6 +30,7 @@
                 <div class="form-group">
                     <label asp-for="Post.CategoryId" class="control-label"></label>
                     <select asp-for="Post.CategoryId" class="form-control">
+                        <option value="">Select Category</option>
                         @foreach (var category in Model.CategoryOptions)
                         {
                             <option value="@category.Id">@category.Name</option>
