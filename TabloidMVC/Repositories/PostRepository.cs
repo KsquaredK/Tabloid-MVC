@@ -174,7 +174,7 @@ namespace TabloidMVC.Repositories
             }
         }
 
-        public void Add(Post post)
+        public void AddPost(Post post)
         {
             using (var conn = Connection)
             {
@@ -199,6 +199,21 @@ namespace TabloidMVC.Repositories
                     cmd.Parameters.AddWithValue("@UserProfileId", post.UserProfileId);
 
                     post.Id = (int)cmd.ExecuteScalar();
+                }
+            }
+        }
+
+        public void DeletePost(int id)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"DELETE from Post WHERE Id = @id";
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    cmd.ExecuteNonQuery();
                 }
             }
         }
