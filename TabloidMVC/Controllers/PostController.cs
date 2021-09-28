@@ -77,6 +77,34 @@ namespace TabloidMVC.Controllers
             }
         }
 
+        public ActionResult Edit(int id)
+        {
+            Post post = _postRepository.GetUserPostById(id, GetCurrentUserProfileId());
+
+            if (post == null)
+            {
+                return NotFound();
+            }
+
+            return View(post);
+
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+            public ActionResult Edit(int id, Post post)
+        {
+            try
+            {
+                _postRepository.EditPost(post);
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                return View(post);
+            }
+        }
+
         public ActionResult Delete(int id)
         {
             Post post = _postRepository.GetUserPostById(id, GetCurrentUserProfileId());
