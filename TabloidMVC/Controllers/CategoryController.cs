@@ -6,92 +6,112 @@ using System.Linq;
 using System.Threading.Tasks;
 using TabloidMVC.Models;
 using TabloidMVC.Repositories;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+
+
 
 namespace TabloidMVC.Controllers
 {
     public class CategoryController : Controller
     {
-        private readonly ICategoryRepository _catRepo;
+        private readonly ICategoryRepository _categoryRepository;
 
         public CategoryController(ICategoryRepository categoryRepository)
         {
-            _catRepo = categoryRepository;
+            _categoryRepository = categoryRepository;
         }
-
         // GET: CategoryController
+        [Authorize]
         public ActionResult Index()
         {
-            var categories = _catRepo.GetAll();
+            var categories = _categoryRepository.GetAll();
+
             return View(categories);
         }
 
         // GET: CategoryController/Details/5
         public ActionResult Details(int id)
         {
+
             return View();
         }
 
         // GET: CategoryController/Create
+        [Authorize]
         public ActionResult Create()
         {
             return View();
         }
 
         // POST: CategoryController/Create
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Category category)
         {
             try
             {
-                _catRepo.AddCategory(category);
-                return RedirectToAction(nameof(Index));
+                _categoryRepository.AddCategory(category);
+                return RedirectToAction("Index");
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 return View(category);
             }
         }
 
         // GET: CategoryController/Edit/5
+        [Authorize]
         public ActionResult Edit(int id)
         {
-            return View();
+            var category = _categoryRepository.GetCategoryById(id);
+            return View(category);
         }
 
         // POST: CategoryController/Edit/5
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, Category category)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                _categoryRepository.UpdateCategory(category);
+                return RedirectToAction("Index");
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                Console.WriteLine(ex.Message);
+                return View(category);
             }
         }
 
         // GET: CategoryController/Delete/5
+        [Authorize]
         public ActionResult Delete(int id)
         {
-            return View();
+            Category category = _categoryRepository.GetCategoryById(id);
+            return View(category);
         }
 
         // POST: CategoryController/Delete/5
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, Category category)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                category = _categoryRepository.GetCategoryById(id);
+                _categoryRepository.DeleteCategory(id);
+                return RedirectToAction("Index");
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                Console.WriteLine(ex.Message);
+                return View(category);
             }
         }
     }

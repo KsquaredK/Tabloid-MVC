@@ -39,6 +39,89 @@ namespace TabloidMVC.Repositories
                 }
             }
         }
+
+
+
+
+
+        public void UpdateCategory(Category category)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                            UPDATE Category
+                            SET
+                                Name = @name
+                            WHERE Id = @id";
+
+                    cmd.Parameters.AddWithValue("@name", category.Name);
+                    cmd.Parameters.AddWithValue("@id", category.Id);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void DeleteCategory(int categoryId)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                            DELETE FROM Category
+                            WHERE Id = @id";
+
+                    cmd.Parameters.AddWithValue("@id", categoryId);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+
+        public Category GetCategoryById(int id)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        SELECT Id, Name
+                        FROM Category
+                        WHERE Id = @id
+                        ";
+
+
+                    cmd.Parameters.AddWithValue("@id", id);
+                    Category category = null;
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            if (category == null)
+                            {
+                                category = new Category
+                                {
+                                    Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                                    Name = reader.GetString(reader.GetOrdinal("Name"))
+                                };
+                            }
+
+                        }
+                    }
+                    return category;
+                }
+            }
+        }
+
+
+
         public void AddCategory(Category category)
         {
             using (var conn = Connection)
@@ -56,5 +139,7 @@ namespace TabloidMVC.Repositories
                 }
             }
         }
+
+    
     }
 }
