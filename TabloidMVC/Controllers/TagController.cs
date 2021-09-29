@@ -62,57 +62,63 @@ namespace TabloidMVC.Controllers
             }
         }
 
-        //// GET: CategoryController/Edit/5
-        //[Authorize]
-        //public ActionResult Edit(int id)
-        //{
-        //    var category = _categoryRepository.GetCategoryById(id);
-        //    return View(category);
-        //}
+        // GET: CategoryController/Edit/5
+        [Authorize]
+        public ActionResult Edit(int id)
+        {
+            Tag tag = _tagRepository.GetTagById(id);
+            
+            if (tag == null)
+            {
+                return NotFound();
+            }
 
-        //// POST: CategoryController/Edit/5
-        //[Authorize]
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Edit(int id, Category category)
-        //{
-        //    try
-        //    {
-        //        _categoryRepository.UpdateCategory(category);
-        //        return RedirectToAction("Index");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Console.WriteLine(ex.Message);
-        //        return View(category);
-        //    }
-        //}
+            return View(tag);
+        }
 
-        //// GET: CategoryController/Delete/5
-        //[Authorize]
-        //public ActionResult Delete(int id)
-        //{
-        //    Category category = _categoryRepository.GetCategoryById(id);
-        //    return View(category);
-        //}
+        // POST: CategoryController/Edit/5
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(int id, Tag tag)
+        {
+            try
+            {
+                _tagRepository.EditTag(tag);
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+               
+                return View(tag);
+            }
+        }
 
-        //// POST: CategoryController/Delete/5
-        //[Authorize]
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Delete(int id, Category category)
-        //{
-        //    try
-        //    {
-        //        category = _categoryRepository.GetCategoryById(id);
-        //        _categoryRepository.DeleteCategory(id);
-        //        return RedirectToAction("Index");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Console.WriteLine(ex.Message);
-        //        return View(category);
-        //    }
-        //}
+        // GET: CategoryController/Delete/5
+        [Authorize]
+        public ActionResult Delete(int id)
+        {
+            Tag tag = _tagRepository.GetTagById(id);
+            return View(tag);
+        }
+
+        // POST: CategoryController/Delete/5
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(int id, Tag tag)
+        {
+            try
+            {
+                tag = _tagRepository.GetTagById(id);
+                _tagRepository.DeleteTag(id);
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                
+                return View(tag);
+            }
+        }
     }
 }
