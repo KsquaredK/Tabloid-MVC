@@ -37,30 +37,30 @@ namespace TabloidMVC.Controllers
         //    return View();
         //}
 
-        //// GET: CategoryController/Create
-        //[Authorize]
-        //public ActionResult Create()
-        //{
-        //    return View();
-        //}
+        // GET: TagController/Create
+        [Authorize]
+        public ActionResult Create()
+        {
+            return View();
+        }
 
-        //// POST: CategoryController/Create
-        //[Authorize]
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Create(Category category)
-        //{
-        //    try
-        //    {
-        //        _categoryRepository.AddCategory(category);
-        //        return RedirectToAction("Index");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Console.WriteLine(ex.Message);
-        //        return View(category);
-        //    }
-        //}
+        // POST: TagController/Create
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(Tag tag)
+        {
+            try
+            {
+                _tagRepository.AddTag(tag);
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                
+                return View(tag);
+            }
+        }
 
         //// GET: CategoryController/Edit/5
         //[Authorize]
