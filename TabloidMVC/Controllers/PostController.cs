@@ -99,7 +99,7 @@ namespace TabloidMVC.Controllers
                 _postRepository.EditPost(post);
                 return RedirectToAction("Index");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return View(post);
             }
@@ -126,7 +126,7 @@ namespace TabloidMVC.Controllers
                 _postRepository.DeletePost(id);
                 return RedirectToAction("Index");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return View(post);
             }
