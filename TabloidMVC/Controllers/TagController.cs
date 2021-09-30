@@ -16,13 +16,13 @@ namespace TabloidMVC.Controllers
     public class TagController : Controller
     {
         private readonly ITagRepository _tagRepository;
-        private readonly IPostRepository _postRepository;
+        
 
 
         public TagController(ITagRepository tagRepository, IPostRepository postRepository)
         { 
             _tagRepository = tagRepository;
-            _postRepository = postRepository;
+            
         }
         // GET: TagController
         [Authorize]
