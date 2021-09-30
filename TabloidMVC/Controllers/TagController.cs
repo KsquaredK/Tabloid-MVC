@@ -16,10 +16,13 @@ namespace TabloidMVC.Controllers
     public class TagController : Controller
     {
         private readonly ITagRepository _tagRepository;
+        private readonly IPostRepository _postRepository;
 
-        public TagController(ITagRepository tagRepository)
+
+        public TagController(ITagRepository tagRepository, IPostRepository postRepository)
         { 
             _tagRepository = tagRepository;
+            _postRepository = postRepository;
         }
         // GET: TagController
         [Authorize]
@@ -120,5 +123,42 @@ namespace TabloidMVC.Controllers
                 return View(tag);
             }
         }
+        // /tag/assigntagtopost/id
+        //public ActionResult AssignTagToPost(int id)
+        //{
+        //    var post = _postRepository.GetUserPostById(id, GetCurrentUserProfileId());
+
+        //    if (post == null)
+        //    {
+        //        return StatusCode(403);
+        //    }
+           
+        //    var tags = _tagRepository.GetAllTags();
+        //    return View(tags);
+
+        //}
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult AssignTagToPost(Tag tag, Post post)
+        //{
+        //    var tags = _tagRepository.GetAllTags();
+        //    try
+        //    {
+        //        _tagRepository.AddTagToPost(tag, post);
+        //        return RedirectToAction("Index");
+        //    }
+
+        //    catch (Exception ex)
+        //    {
+        //        return View(tags);
+        //    }
+        //}
+
+        //private int GetCurrentUserProfileId()
+        //{
+        //    string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        //    return int.Parse(id);
+        //}
     }
 }
